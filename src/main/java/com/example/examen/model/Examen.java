@@ -5,21 +5,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "examen") // Nom exact de la table dans PostgreSQL
+@Table(name = "exam")
 public class Examen {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-incrément
-    @Column(name = "id_examen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_exam")
     private Long idExamen;
 
-    @Column(name = "id_matiere", nullable = false)
-    private Long idMatiere;
+    @ManyToOne
+    @JoinColumn(name = "id_matiere", referencedColumnName = "id")
+    private Matiere matiere;
 
-    @Column(name = "id_niveau", nullable = false)
-    private Long idNiveau;
+    @ManyToOne
+    @JoinColumn(name = "id_niveau", referencedColumnName = "id")
+    private Niveau niveau;
 
-    @Column(name = "date_examen", nullable = false)
+    @Column(name = "date_exam", nullable = false)
     private LocalDate dateExamen;
 
     @Column(name = "heure_debut", nullable = false)
@@ -29,15 +31,15 @@ public class Examen {
     private LocalDateTime heureFin;
 
     @Column(name = "duree")
-    private Double duree; // numeric en PostgreSQL → Double en Java
+    private Double duree;
 
     // Constructeurs
     public Examen() {}
 
-    public Examen(Long idMatiere, Long idNiveau, LocalDate dateExamen,
+    public Examen(Matiere matiere, Niveau niveau, LocalDate dateExamen,
                   LocalDateTime heureDebut, LocalDateTime heureFin, Double duree) {
-        this.idMatiere = idMatiere;
-        this.idNiveau = idNiveau;
+        this.matiere = matiere;
+        this.niveau = niveau;
         this.dateExamen = dateExamen;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
@@ -48,11 +50,11 @@ public class Examen {
     public Long getIdExamen() { return idExamen; }
     public void setIdExamen(Long idExamen) { this.idExamen = idExamen; }
 
-    public Long getIdMatiere() { return idMatiere; }
-    public void setIdMatiere(Long idMatiere) { this.idMatiere = idMatiere; }
+    public Matiere getMatiere() { return matiere; }
+    public void setMatiere(Matiere matiere) { this.matiere = matiere; }
 
-    public Long getIdNiveau() { return idNiveau; }
-    public void setIdNiveau(Long idNiveau) { this.idNiveau = idNiveau; }
+    public Niveau getNiveau() { return niveau; }
+    public void setNiveau(Niveau niveau) { this.niveau = niveau; }
 
     public LocalDate getDateExamen() { return dateExamen; }
     public void setDateExamen(LocalDate dateExamen) { this.dateExamen = dateExamen; }
@@ -65,17 +67,4 @@ public class Examen {
 
     public Double getDuree() { return duree; }
     public void setDuree(Double duree) { this.duree = duree; }
-
-    @Override
-    public String toString() {
-        return "Examen{" +
-                "idExamen=" + idExamen +
-                ", idMatiere=" + idMatiere +
-                ", idNiveau=" + idNiveau +
-                ", dateExamen=" + dateExamen +
-                ", heureDebut=" + heureDebut +
-                ", heureFin=" + heureFin +
-                ", duree=" + duree +
-                '}';
-    }
 }
