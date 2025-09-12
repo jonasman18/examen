@@ -21,17 +21,21 @@
         <th>Heure Début</th>
         <th>Heure Fin</th>
         <th>Durée</th>
+        <th>Salle</th>
+        <th>Session</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="examen : ${examens}">
         <td th:text="${examen.idExamen}"></td>
-        <td th:text="${examen.idMatiere}"></td>
-        <td th:text="${examen.idNiveau}"></td>
+        <td th:text="${examen.matiere.nomMatiere}"></td>
+        <td th:text="${examen.niveau.codeNiveau}"></td>
         <td th:text="${examen.dateExamen}"></td>
         <td th:text="${examen.heureDebut}"></td>
         <td th:text="${examen.heureFin}"></td>
         <td th:text="${examen.duree}"></td>
+        <td th:text="${examen.numeroSalle}"></td>
+        <td th:text="${examen.session}"></td>
     </tr>
     </tbody>
 </table>

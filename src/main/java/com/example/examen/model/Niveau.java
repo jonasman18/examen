@@ -8,19 +8,21 @@ public class Niveau {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_niveau")
+    private Long idNiveau;
 
     @Column(name = "code_niveau", nullable = false)
-    private String code_niveau;
+    private String codeNiveau;
 
-    // Constructeurs
     public Niveau() {}
-    public Niveau(String code_niveau) { this.code_niveau = code_niveau; }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Niveau(String codeNiveau) {
+        this.codeNiveau = codeNiveau;
+    }
 
-    public String getLibelle() { return code_niveau; }
-    public void setLibelle(String code_niveau) { this.code_niveau = code_niveau; }
+    public Long getIdNiveau() { return idNiveau; }
+    public void setIdNiveau(Long idNiveau) { this.idNiveau = idNiveau; }
+
+    public String getCodeNiveau() { return codeNiveau; }
+    public void setCodeNiveau(String codeNiveau) { this.codeNiveau = codeNiveau; }
 }

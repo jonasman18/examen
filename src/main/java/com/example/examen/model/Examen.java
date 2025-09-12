@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "exam")
+@Table(name = "examen")
 public class Examen {
 
     @Id
@@ -14,11 +14,11 @@ public class Examen {
     private Long idExamen;
 
     @ManyToOne
-    @JoinColumn(name = "id_matiere", referencedColumnName = "id")
+    @JoinColumn(name = "id_matiere", referencedColumnName = "id_matiere")
     private Matiere matiere;
 
     @ManyToOne
-    @JoinColumn(name = "id_niveau", referencedColumnName = "id")
+    @JoinColumn(name = "id_niveau", referencedColumnName = "id_niveau")
     private Niveau niveau;
 
     @Column(name = "date_examen", nullable = false)
@@ -33,20 +33,27 @@ public class Examen {
     @Column(name = "duree")
     private Double duree;
 
-    // Constructeurs
+    @Column(name = "numero_salle")
+    private String numeroSalle;
+
+    @Column(name = "session")
+    private String session;
+
     public Examen() {}
 
     public Examen(Matiere matiere, Niveau niveau, LocalDate dateExamen,
-                  LocalDateTime heureDebut, LocalDateTime heureFin, Double duree) {
+                  LocalDateTime heureDebut, LocalDateTime heureFin,
+                  Double duree, String numeroSalle, String session) {
         this.matiere = matiere;
         this.niveau = niveau;
         this.dateExamen = dateExamen;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.duree = duree;
+        this.numeroSalle = numeroSalle;
+        this.session = session;
     }
 
-    // Getters & Setters
     public Long getIdExamen() { return idExamen; }
     public void setIdExamen(Long idExamen) { this.idExamen = idExamen; }
 
@@ -67,4 +74,10 @@ public class Examen {
 
     public Double getDuree() { return duree; }
     public void setDuree(Double duree) { this.duree = duree; }
+
+    public String getNumeroSalle() { return numeroSalle; }
+    public void setNumeroSalle(String numeroSalle) { this.numeroSalle = numeroSalle; }
+
+    public String getSession() { return session; }
+    public void setSession(String session) { this.session = session; }
 }
