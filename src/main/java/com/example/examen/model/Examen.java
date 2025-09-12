@@ -10,7 +10,7 @@ public class Examen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_exam")
+    @Column(name = "id_examen")
     private Long idExamen;
 
     @ManyToOne
@@ -21,7 +21,7 @@ public class Examen {
     @JoinColumn(name = "id_niveau", referencedColumnName = "id")
     private Niveau niveau;
 
-    @Column(name = "date_exam", nullable = false)
+    @Column(name = "date_examen", nullable = false)
     private LocalDate dateExamen;
 
     @Column(name = "heure_debut", nullable = false)
