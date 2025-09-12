@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion des Examens</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .exam { border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        button { background: #007bff; color: white; border: none; padding: 8px 15px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+<h1>Liste des Examens</h1>
+<div id="examensList"></div>
+
+<h2>Ajouter un Nouvel Examen</h2>
+<form id="examForm">
+    ID Examen: <input type="number" name="id_examen" required><br>
+    ID Matière: <input type="number" name="id_matiere" required><br>
+    Date: <input type="date" name="date_examen" required><br>
+    Heure Début: <input type="time" name="heure_debut" required><br>
+    Heure Fin: <input type="time" name="heure_fin" required><br>
+    Durée: <input type="text" name="duree" placeholder="1 h 30" required><br>
+    <button type="submit">Ajouter l'Examen</button>
+</form>
+
+<script>
+    const API_URL = 'http://localhost:8080/api/examens';
+
+    // Charger et afficher tous les examens
+    async function loadExamens() {
+        try {
+            const response = await axios.get(API_URL);
+            const examens = response.data;
+            const container = document.getElementById('examensList');
+
+            container.innerHTML = '';
+            examens.forEach(exam => {
+                const examDiv = document.createElement('div');
+                examDiv.className = 'exam';
+                examDiv.innerHTML = `
+                    <strong>Examen #${exam.id_examen}</strong><br>
+                    Matière: ${exam.id_matiere}<br>
+                    Date: ${new Date(exam.date_examen).toLocaleDateString()}<br>
+                    Heure: ${new Date(exam.heure_debut).toLocaleTimeString()} - ${new Date(exam.heure_fin).toLocaleTimeString()}<br>
+                    Durée: ${exam.duree}<br>
+                    <button onclick="deleteExamen('${exam.documentId}')">Supprimer</button>
+                `;
+                container.appendChild(examDiv);
+            });
+        } catch (error) {
+            console.error('Erreur:', error);
+        }
+    }
+
+    // Ajouter un nouvel examen
+    document.getElementById('examForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const examen = {
+            id_examen: parseInt(formData.get('id_examen')),
+            id_matiere: parseInt(formData.get('id_matiere')),
+            date_examen: new Date(formData.get('date_examen') + 'T00:00:00'),
+            heure_debut: new Date('1970-01-01T' + formData.get('heure_debut') + ':00'),
+            heure_fin: new Date('1970-01-01T' + formData.get('heure_fin') + ':00'),
+            duree: formData.get('duree')
+        };
+
+        try {
+            await axios.post(API_URL, examen);
+            this.reset();
+            loadExamens();
+            alert('Examen ajouté avec succès!');
+        } catch (error) {
+            console.error('Erreur:', error);
+            alert('Erreur lors de l\'ajout');
+        }
+    });
+
+    // Supprimer un examen
+    async function deleteExamen(documentId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet examen?')) {
+            try {
+                await axios.delete(`${API_URL}/${documentId}`);
+                loadExamens();
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+    }
+
+    // Charger les examens au démarrage
+    loadExamens();
+</script>
+</body>
+</html>
