@@ -1,4 +1,4 @@
-package com.example.examen.controller;
+/*package com.example.examen.controller;
 
 import com.example.examen.service.ExamenService;
 import org.springframework.stereotype.Controller;
@@ -19,4 +19,4 @@ public class ExamenViewController {
         model.addAttribute("examens", examenService.getAllExamens());
         return "examens"; // nom du fichier HTML
     }
-}
+} */

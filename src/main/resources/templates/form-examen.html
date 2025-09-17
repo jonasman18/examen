@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${examen.idExamen} != null ? 'Modifier un Examen' : 'Ajouter un Examen'">Examen</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 600px; margin: auto; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        select, input, button { width: 100%; padding: 8px; margin-top: 5px; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+    </style>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+<h2 style="text-align:center;"
+    th:text="${examen.idExamen} != null ? 'Modifier un Examen' : 'Ajouter un Examen'">
+</h2>
+
+<form th:action="@{/examen/save-examen}" th:object="${examen}" method="post">
+    <!-- Champ caché pour l'ID (nécessaire pour UPDATE) -->
+    <input type="hidden" th:field="*{idExamen}" />
+
+    <!-- Matière -->
+    <label>Matière</label>
+    <select th:field="*{matiere.idMatiere}" required>
+        <option value="" disabled th:selected="${examen.matiere} == null">-- Sélectionner --</option>
+        <option th:each="m : ${matieres}"
+                th:value="${m.idMatiere}"
+                th:text="${m.nomMatiere}">
+        </option>
+    </select>
+
+    <!-- Niveau -->
+    <label>Niveau</label>
+    <select th:field="*{niveau.idNiveau}" required>
+        <option value="" disabled th:selected="${examen.niveau} == null">-- Sélectionner --</option>
+        <option th:each="n : ${niveaux}"
+                th:value="${n.idNiveau}"
+                th:text="${n.codeNiveau}">
+        </option>
+    </select>
+
+    <!-- Date -->
+    <label>Date</label>
+    <input type="date" th:field="*{dateExamen}" required />
+
+    <!-- Heure début -->
+    <label>Heure Début</label>
+    <input type="datetime-local" th:field="*{heureDebut}" required />
+
+    <!-- Heure fin -->
+    <label>Heure Fin</label>
+    <input type="datetime-local" th:field="*{heureFin}" required />
+
+    <!-- Durée -->
+    <label>Durée (heures)</label>
+    <input type="number" step="0.5" th:field="*{duree}" />
+
+    <!-- Salle -->
+    <label>Numéro de Salle</label>
+    <input type="text" th:field="*{numeroSalle}" />
+
+    <!-- Session -->
+    <label>Session</label>
+    <input type="text" th:field="*{session}" />
+
+    <!-- Bouton -->
+    <button type="submit"
+            th:text="${examen.idExamen} != null ? 'Mettre à jour' : 'Enregistrer'">
+        Enregistrer
+    </button>
+</form>
+
+</body>
+</html>

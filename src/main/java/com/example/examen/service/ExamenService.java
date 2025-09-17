@@ -19,15 +19,17 @@ public class ExamenService {
         return examenRepository.findAll();
     }
 
-    public Examen getExamenById(Long id) {
-        return examenRepository.findById(id).orElse(null);
+    public Examen getExamenById(Long id_examen) {
+        return examenRepository.findById(id_examen).orElse(null);
     }
 
     public Examen saveExamen(Examen examen) {
         return examenRepository.save(examen);
     }
 
-    public void deleteExamen(Long id) {
-        examenRepository.deleteById(id);
+    public void deleteExamen(Long id_examen) {
+        examenRepository.deleteById(id_examen);
     }
+
+
 }
