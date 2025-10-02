@@ -4,10 +4,12 @@ import com.example.examen.model.Examen;
 import com.example.examen.service.ExamenService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+/* import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/examens")
+@RequestMapping("/api/examens")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ExamenController {
 
     private final ExamenService examenService;
@@ -17,28 +19,30 @@ public class ExamenController {
     }
 
     @GetMapping
-    public List<Examen> getAllExamens() {
+    public List<Examen> getAll() {
         return examenService.getAllExamens();
     }
 
     @GetMapping("/{id}")
-    public Examen getExamenById(@PathVariable Long id) {
+    public Optional<Examen> getById(@PathVariable Long id) {
         return examenService.getExamenById(id);
     }
 
     @PostMapping
-    public Examen createExamen(@RequestBody Examen examen) {
+    public Examen create(@RequestBody Examen examen) {
         return examenService.saveExamen(examen);
     }
 
     @PutMapping("/{id}")
-    public Examen updateExamen(@PathVariable Long id, @RequestBody Examen examen) {
+    public Examen update(@PathVariable Long id, @RequestBody Examen examen) {
         examen.setIdExamen(id);
         return examenService.saveExamen(examen);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteExamen(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         examenService.deleteExamen(id);
     }
 }
+
+ */

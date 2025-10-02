@@ -29,7 +29,7 @@ public class Examen {
 
     @Column(name = "date_examen", nullable = false)
     @NotNull(message = "La date est obligatoire")
-    @PastOrPresent(message = "La date ne peut pas être dans le futur")
+    @FutureOrPresent(message = "La date ne peut pas être dans le passé")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateExamen;
 
@@ -43,8 +43,8 @@ public class Examen {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime heureFin;
 
-    @Column(name = "duree", columnDefinition = "NUMERIC", nullable = true) // nullable=true car NULL dans la table
-    private BigDecimal duree; // Compatible avec NUMERIC
+    @Column(name = "duree", columnDefinition = "NUMERIC", nullable = true)
+    private BigDecimal duree;
 
     @Column(name = "numero_salle")
     @Size(max = 20, message = "Numéro de salle trop long")
@@ -54,7 +54,10 @@ public class Examen {
     @Size(max = 50, message = "Session trop longue")
     private String session;
 
-    public Examen() {}
+    public Examen() {
+        this.matiere = new Matiere(); // Initialisation par défaut
+        this.niveau = new Niveau(); // Initialisation par défaut
+    }
 
     public Examen(Matiere matiere, Niveau niveau, LocalDate dateExamen,
                   LocalDateTime heureDebut, LocalDateTime heureFin,
@@ -69,7 +72,7 @@ public class Examen {
         this.session = session;
     }
 
-    // Getters et setters
+    // Getters et setters (déjà bons, mais ajoutez des logs si besoin)
     public Long getIdExamen() { return idExamen; }
     public void setIdExamen(Long idExamen) { this.idExamen = idExamen; }
 

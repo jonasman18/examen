@@ -5,6 +5,7 @@ import com.example.examen.repository.ExamenRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExamenService {
@@ -19,8 +20,8 @@ public class ExamenService {
         return examenRepository.findAll();
     }
 
-    public Examen getExamenById(Long id_examen) {
-        return examenRepository.findById(id_examen).orElse(null);
+    public Optional<Examen> getExamenById(Long id_examen) {
+        return examenRepository.findById(id_examen);
     }
 
     public Examen saveExamen(Examen examen) {
@@ -30,6 +31,4 @@ public class ExamenService {
     public void deleteExamen(Long id_examen) {
         examenRepository.deleteById(id_examen);
     }
-
-
 }
