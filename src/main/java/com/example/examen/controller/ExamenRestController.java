@@ -62,10 +62,10 @@ public class ExamenRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/matieres")
+    /*@GetMapping("/matieres")
     public List<Matiere> getMatieres() {
         return matiereRepository.findAll();
-    }
+    } */
 
     @GetMapping("/niveaux")
     public List<Niveau> getNiveaux() {
