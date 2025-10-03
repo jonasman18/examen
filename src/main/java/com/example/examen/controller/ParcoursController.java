@@ -1,10 +1,11 @@
-package com.example.examen.controller;
+/*package com.example.examen.controller;
 
 import com.example.examen.model.Parcours;
 import com.example.examen.service.ParcoursService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/parcours")
@@ -22,7 +23,7 @@ public class ParcoursController {
     }
 
     @GetMapping("/{id}")
-    public Parcours getParcoursById(@PathVariable Long id) {
+    public Optional<Parcours> getParcoursById(@PathVariable Long id) {
         return parcoursService.getParcoursById(id);
     }
 
@@ -41,4 +42,4 @@ public class ParcoursController {
     public void deleteParcours(@PathVariable Long id) {
         parcoursService.deleteParcours(id);
     }
-}
+} */

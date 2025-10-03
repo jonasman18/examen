@@ -18,19 +18,22 @@ public class EnseignantService {
         this.enseignantRepository = enseignantRepository;
     }
 
+    // 🔹 Récupérer tous les enseignants
     public List<Enseignant> getAllEnseignants() {
         return enseignantRepository.findAll();
     }
 
-    public Enseignant getEnseignantById(Long id) {
-        Optional<Enseignant> enseignant = enseignantRepository.findById(id);
-        return enseignant.orElse(null);
+    // 🔹 Récupérer un enseignant par ID (Optional pour éviter NullPointer)
+    public Optional<Enseignant> getEnseignantById(Long id) {
+        return enseignantRepository.findById(id);
     }
 
+    // 🔹 Sauvegarder ou mettre à jour un enseignant
     public Enseignant saveEnseignant(Enseignant enseignant) {
         return enseignantRepository.save(enseignant);
     }
 
+    // 🔹 Supprimer un enseignant par ID
     public void deleteEnseignant(Long id) {
         enseignantRepository.deleteById(id);
     }

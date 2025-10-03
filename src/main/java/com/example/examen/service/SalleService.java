@@ -22,9 +22,8 @@ public class SalleService {
         return salleRepository.findAll();
     }
 
-    public Salle getSalleById(String numeroSalle) {
-        Optional<Salle> salle = salleRepository.findById(numeroSalle);
-        return salle.orElse(null);
+    public Optional<Salle> getSalleById(String numeroSalle) {
+        return salleRepository.findById(numeroSalle);
     }
 
     public Salle saveSalle(Salle salle) {

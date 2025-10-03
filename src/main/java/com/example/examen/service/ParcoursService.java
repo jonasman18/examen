@@ -22,9 +22,8 @@ public class ParcoursService {
         return parcoursRepository.findAll();
     }
 
-    public Parcours getParcoursById(Long id) {
-        Optional<Parcours> parcours = parcoursRepository.findById(id);
-        return parcours.orElse(null);
+    public Optional<Parcours> getParcoursById(Long id) {
+        return parcoursRepository.findById(id);
     }
 
     public Parcours saveParcours(Parcours parcours) {

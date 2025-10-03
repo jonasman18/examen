@@ -1,10 +1,11 @@
-package com.example.examen.controller;
+/* package com.example.examen.controller;
 
 import com.example.examen.model.Salle;
 import com.example.examen.service.SalleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/salles")
@@ -22,7 +23,7 @@ public class SalleController {
     }
 
     @GetMapping("/{numeroSalle}")
-    public Salle getSalleById(@PathVariable String numeroSalle) {
+    public Optional<Salle> getSalleById(@PathVariable String numeroSalle) {
         return salleService.getSalleById(numeroSalle);
     }
 
@@ -42,3 +43,5 @@ public class SalleController {
         salleService.deleteSalle(numeroSalle);
     }
 }
+
+ */

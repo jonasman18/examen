@@ -5,9 +5,10 @@ import com.example.examen.service.EnseignantService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/enseignants")
+@RequestMapping("/api")
 public class EnseignantController {
 
     private final EnseignantService enseignantService;
@@ -22,7 +23,7 @@ public class EnseignantController {
     }
 
     @GetMapping("/{id}")
-    public Enseignant getEnseignantById(@PathVariable Long id) {
+    public Optional<Enseignant> getEnseignantById(@PathVariable Long id) {
         return enseignantService.getEnseignantById(id);
     }
 

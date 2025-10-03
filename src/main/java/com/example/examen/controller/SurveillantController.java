@@ -1,13 +1,14 @@
-package com.example.examen.controller;
+/*package com.example.examen.controller;
 
 import com.example.examen.model.Surveillant;
 import com.example.examen.service.SurveillantService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/surveillants")
+@RequestMapping("/api")
 public class SurveillantController {
 
     private final SurveillantService surveillantService;
@@ -22,7 +23,7 @@ public class SurveillantController {
     }
 
     @GetMapping("/{id}")
-    public Surveillant getSurveillantById(@PathVariable Long id) {
+    public Optional<Surveillant> getSurveillantById(@PathVariable Long id) {
         return surveillantService.getSurveillantById(id);
     }
 
@@ -41,4 +42,4 @@ public class SurveillantController {
     public void deleteSurveillant(@PathVariable Long id) {
         surveillantService.deleteSurveillant(id);
     }
-}
+} */
