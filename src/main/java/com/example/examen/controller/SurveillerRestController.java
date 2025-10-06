@@ -2,7 +2,7 @@ package com.example.examen.controller;
 
 import com.example.examen.model.*;
 import com.example.examen.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.examen.service.SurveillerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +13,21 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class SurveillerRestController {
 
-    @Autowired
-    private SurveillerRepository surveillerRepository;
+    private final SurveillerRepository surveillerRepository;
+    private final ExamenRepository examenRepository;
+    private final SurveillantRepository surveillantRepository;
 
-    @Autowired
-    private ExamenRepository examenRepository;
+    public SurveillerRestController(
+            SurveillerRepository surveillerRepository,
+            ExamenRepository examenRepository,
+            SurveillantRepository surveillantRepository
+    ) {
+        this.surveillerRepository = surveillerRepository;
+        this.examenRepository = examenRepository;
+        this.surveillantRepository = surveillantRepository;
+    }
 
-    @Autowired
-    private SurveillantRepository surveillantRepository;
-
-    // 🔹 Liste des associations
+    // 🔹 Liste de toutes les associations
     @GetMapping
     public List<Surveiller> getAll() {
         return surveillerRepository.findAll();
@@ -43,6 +48,35 @@ public class SurveillerRestController {
 
         Surveiller association = new Surveiller(examen, surveillant);
         Surveiller saved = surveillerRepository.save(association);
+
+        return ResponseEntity.ok(saved);
+    }
+
+    // 🔹 Modifier une association (changer le surveillant ou l’examen)
+    @PutMapping("/{oldIdExamen}/{oldIdSurveillant}")
+    public ResponseEntity<Surveiller> update(
+            @PathVariable Long oldIdExamen,
+            @PathVariable Long oldIdSurveillant,
+            @RequestBody Surveiller newAssociation
+    ) {
+        SurveillerId oldId = new SurveillerId(oldIdExamen, oldIdSurveillant);
+
+        if (!surveillerRepository.existsById(oldId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Supprimer l’ancienne association
+        surveillerRepository.deleteById(oldId);
+
+        // Vérifier que les nouveaux objets existent
+        Examen examen = examenRepository.findById(newAssociation.getExamen().getIdExamen())
+                .orElseThrow(() -> new RuntimeException("Examen introuvable"));
+        Surveillant surveillant = surveillantRepository.findById(newAssociation.getSurveillant().getIdSurveillant())
+                .orElseThrow(() -> new RuntimeException("Surveillant introuvable"));
+
+        // Créer la nouvelle association
+        Surveiller updated = new Surveiller(examen, surveillant);
+        Surveiller saved = surveillerRepository.save(updated);
 
         return ResponseEntity.ok(saved);
     }

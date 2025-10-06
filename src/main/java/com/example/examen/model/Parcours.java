@@ -36,6 +36,11 @@ public class Parcours {
         return idParcours;
     }
 
+    public Parcours(Long idParcours) {
+        this.idParcours = idParcours;
+    }
+
+
     public void setIdParcours(Long idParcours) {
         this.idParcours = idParcours;
     }

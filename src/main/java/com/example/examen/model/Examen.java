@@ -27,6 +27,10 @@ public class Examen {
     @NotNull(message = "Le niveau est obligatoire")
     private Niveau niveau;
 
+    @ManyToOne
+    @JoinColumn(name = "id_repartition")
+    private Repartition repartition;
+
     @Column(name = "date_examen", nullable = false)
     @NotNull(message = "La date est obligatoire")
     @FutureOrPresent(message = "La date ne peut pas être dans le passé")
@@ -72,31 +76,80 @@ public class Examen {
         this.session = session;
     }
 
+    public Examen(Long idExamen) {
+        this.idExamen = idExamen;
+    }
+
     // Getters et setters (déjà bons, mais ajoutez des logs si besoin)
-    public Long getIdExamen() { return idExamen; }
-    public void setIdExamen(Long idExamen) { this.idExamen = idExamen; }
+    public Long getIdExamen() {
+        return idExamen;
+    }
 
-    public Matiere getMatiere() { return matiere; }
-    public void setMatiere(Matiere matiere) { this.matiere = matiere; }
+    public void setIdExamen(Long idExamen) {
+        this.idExamen = idExamen;
+    }
 
-    public Niveau getNiveau() { return niveau; }
-    public void setNiveau(Niveau niveau) { this.niveau = niveau; }
+    public Matiere getMatiere() {
+        return matiere;
+    }
 
-    public LocalDate getDateExamen() { return dateExamen; }
-    public void setDateExamen(LocalDate dateExamen) { this.dateExamen = dateExamen; }
+    public void setMatiere(Matiere matiere) {
+        this.matiere = matiere;
+    }
 
-    public LocalDateTime getHeureDebut() { return heureDebut; }
-    public void setHeureDebut(LocalDateTime heureDebut) { this.heureDebut = heureDebut; }
+    public Niveau getNiveau() {
+        return niveau;
+    }
 
-    public LocalDateTime getHeureFin() { return heureFin; }
-    public void setHeureFin(LocalDateTime heureFin) { this.heureFin = heureFin; }
+    public void setNiveau(Niveau niveau) {
+        this.niveau = niveau;
+    }
 
-    public BigDecimal getDuree() { return duree; }
-    public void setDuree(BigDecimal duree) { this.duree = duree; }
+    public LocalDate getDateExamen() {
+        return dateExamen;
+    }
 
-    public String getNumeroSalle() { return numeroSalle; }
-    public void setNumeroSalle(String numeroSalle) { this.numeroSalle = numeroSalle; }
+    public void setDateExamen(LocalDate dateExamen) {
+        this.dateExamen = dateExamen;
+    }
 
-    public String getSession() { return session; }
-    public void setSession(String session) { this.session = session; }
+    public LocalDateTime getHeureDebut() {
+        return heureDebut;
+    }
+
+    public void setHeureDebut(LocalDateTime heureDebut) {
+        this.heureDebut = heureDebut;
+    }
+
+    public LocalDateTime getHeureFin() {
+        return heureFin;
+    }
+
+    public void setHeureFin(LocalDateTime heureFin) {
+        this.heureFin = heureFin;
+    }
+
+    public BigDecimal getDuree() {
+        return duree;
+    }
+
+    public void setDuree(BigDecimal duree) {
+        this.duree = duree;
+    }
+
+    public String getNumeroSalle() {
+        return numeroSalle;
+    }
+
+    public void setNumeroSalle(String numeroSalle) {
+        this.numeroSalle = numeroSalle;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
 }

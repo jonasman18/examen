@@ -3,6 +3,7 @@ package com.example.examen.controller;
 import com.example.examen.model.Examen;
 import com.example.examen.model.Matiere;
 import com.example.examen.model.Niveau;
+import com.example.examen.model.Repartition;
 import com.example.examen.repository.MatiereRepository;
 import com.example.examen.repository.NiveauRepository;
 import com.example.examen.service.ExamenService;
@@ -71,4 +72,10 @@ public class ExamenRestController {
     public List<Niveau> getNiveaux() {
         return niveauRepository.findAll();
     }
+
+    @GetMapping("/{id}/repartitions")
+    public List<Repartition> getRepartitionByExamen(@PathVariable Long id) {
+        return examenService.getRepartition(id);
+    }
+
 }
