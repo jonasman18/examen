@@ -26,11 +26,16 @@ public class SurveillantService {
 
     public Surveillant saveSurveillant(Surveillant surveillant) {
         // ⚡ On ignore "contact" (il sera null par défaut ou inchangé)
-        surveillant.setContact(null);
+        //surveillant.setContact(null);
         return surveillantRepository.save(surveillant);
     }
 
     public void deleteSurveillant(Long id) {
         surveillantRepository.deleteById(id);
+    }
+
+    // 🔹 Nouvel ajout : récupérer les surveillants d'une salle donnée
+    public List<Surveillant> getBySalle(String numeroSalle) {
+        return surveillantRepository.findByNumeroSalle(numeroSalle);
     }
 }

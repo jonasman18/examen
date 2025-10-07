@@ -33,7 +33,7 @@ public class SurveillantRestController {
     // POST : ajout (⚠️ on ignore contact)
     @PostMapping
     public ResponseEntity<Surveillant> createSurveillant(@RequestBody Surveillant surveillant) {
-        surveillant.setContact(null); // toujours ignoré
+        //surveillant.setContact(null); // toujours ignoré
         Surveillant saved = surveillantService.saveSurveillant(surveillant);
         return ResponseEntity.ok(saved);
     }
@@ -42,7 +42,7 @@ public class SurveillantRestController {
     @PutMapping("/{id}")
     public ResponseEntity<Surveillant> updateSurveillant(@PathVariable Long id, @RequestBody Surveillant surveillant) {
         surveillant.setIdSurveillant(id);
-        surveillant.setContact(null); // toujours ignoré
+        //surveillant.setContact(null); // toujours ignoré
         Surveillant updated = surveillantService.saveSurveillant(surveillant);
         return ResponseEntity.ok(updated);
     }
@@ -53,4 +53,11 @@ public class SurveillantRestController {
         surveillantService.deleteSurveillant(id);
         return ResponseEntity.noContent().build();
     }
+
+    // 🔹 Récupérer les surveillants d'une salle donnée
+    @GetMapping("/by-salle/{numeroSalle}")
+    public List<Surveillant> getBySalle(@PathVariable String numeroSalle) {
+        return surveillantService.getBySalle(numeroSalle);
+    }
+
 }

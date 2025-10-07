@@ -56,4 +56,11 @@ public class ExamenParcoursService {
             repo.save(ep);
         });
     }
+    public List<Parcours> getParcoursByExamen(Long idExamen) {
+        return repo.findAll().stream()
+                .filter(ep -> ep.getExamen() != null && ep.getExamen().getIdExamen().equals(idExamen))
+                .map(ExamenParcours::getParcours)
+                .toList();
+    }
+
 }

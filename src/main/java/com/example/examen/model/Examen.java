@@ -1,5 +1,6 @@
 package com.example.examen.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "examen")
@@ -57,6 +59,17 @@ public class Examen {
     @Column(name = "session")
     @Size(max = 50, message = "Session trop longue")
     private String session;
+
+    @OneToMany(mappedBy = "examen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("examen")
+    private List<ExamenParcours> examenParcoursList;
+
+    public List<ExamenParcours> getExamenParcoursList() {
+        return examenParcoursList;
+    }
+    public void setExamenParcoursList(List<ExamenParcours> examenParcoursList) {
+        this.examenParcoursList = examenParcoursList;
+    }
 
     public Examen() {
         this.matiere = new Matiere(); // Initialisation par défaut

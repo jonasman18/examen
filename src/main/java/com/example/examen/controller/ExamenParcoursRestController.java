@@ -2,6 +2,7 @@ package com.example.examen.controller;
 
 import com.example.examen.model.ExamenParcours;
 import com.example.examen.model.ExamenParcoursId;
+import com.example.examen.model.Parcours;
 import com.example.examen.service.ExamenParcoursService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +83,12 @@ public class ExamenParcoursRestController {
 
         service.updateGlobal(idExamen, parcoursIds.stream().map(Long::valueOf).toList());
         return ResponseEntity.ok("Mise à jour globale réussie !");
+    }
+
+    // 🔹 Récupérer les parcours liés à un examen spécifique
+    @GetMapping("/examen/{idExamen}")
+    public List<Parcours> getParcoursByExamen(@PathVariable Long idExamen) {
+        return service.getParcoursByExamen(idExamen);
     }
 
 

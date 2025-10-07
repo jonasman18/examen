@@ -78,4 +78,5 @@ public class ExamenRestController {
         return examenService.getRepartition(id);
     }
 
+
 }
