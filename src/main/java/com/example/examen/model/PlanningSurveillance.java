@@ -15,9 +15,6 @@ public class PlanningSurveillance {
     @JoinColumn(name = "id_examen", nullable = false)
     private Examen examen;
 
-    @ManyToOne
-    @JoinColumn(name = "id_parcours", nullable = false)
-    private Parcours parcours;
 
     @ManyToOne
     @JoinColumn(name = "numero_salle", referencedColumnName = "numero_salle", nullable = false)
@@ -50,13 +47,7 @@ public class PlanningSurveillance {
         this.examen = examen;
     }
 
-    public Parcours getParcours() {
-        return parcours;
-    }
 
-    public void setParcours(Parcours parcours) {
-        this.parcours = parcours;
-    }
 
     public Salle getSalle() {
         return salle;

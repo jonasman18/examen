@@ -69,12 +69,6 @@ public class PlanningSurveillanceService {
                             .orElseThrow(() -> new RuntimeException("Examen introuvable"))
             );
         }
-        if (planning.getParcours() != null && planning.getParcours().getIdParcours() != null) {
-            planning.setParcours(
-                    parcoursRepo.findById(planning.getParcours().getIdParcours())
-                            .orElseThrow(() -> new RuntimeException("Parcours introuvable"))
-            );
-        }
         if (planning.getSalle() != null && planning.getSalle().getNumeroSalle() != null) {
             planning.setSalle(
                     salleRepo.findById(planning.getSalle().getNumeroSalle())
