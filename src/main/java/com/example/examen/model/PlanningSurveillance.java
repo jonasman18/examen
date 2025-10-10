@@ -1,83 +1,40 @@
 package com.example.examen.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.Data;
 
 @Entity
 @Table(name = "planning_surveillance")
+@Data
 public class PlanningSurveillance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_planning")
     private Long idPlanning;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_examen", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "repartitions", "surveillances"})
     private Examen examen;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "numero_salle", referencedColumnName = "numero_salle", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "repartitions"})
     private Salle salle;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_surveillant", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Surveillant surveillant;
 
     @Column(name = "heure_debut")
-    private LocalDateTime heureDebut;
+    private String heureDebut;
 
     @Column(name = "heure_fin")
-    private LocalDateTime heureFin;
+    private String heureFin;
 
-    // --- Getters & Setters ---
-    public Long getIdPlanning() {
-        return idPlanning;
-    }
-
-    public void setIdPlanning(Long idPlanning) {
-        this.idPlanning = idPlanning;
-    }
-
-    public Examen getExamen() {
-        return examen;
-    }
-
-    public void setExamen(Examen examen) {
-        this.examen = examen;
-    }
-
-
-
-    public Salle getSalle() {
-        return salle;
-    }
-
-    public void setSalle(Salle salle) {
-        this.salle = salle;
-    }
-
-    public Surveillant getSurveillant() {
-        return surveillant;
-    }
-
-    public void setSurveillant(Surveillant surveillant) {
-        this.surveillant = surveillant;
-    }
-
-    public LocalDateTime getHeureDebut() {
-        return heureDebut;
-    }
-
-    public void setHeureDebut(LocalDateTime heureDebut) {
-        this.heureDebut = heureDebut;
-    }
-
-    public LocalDateTime getHeureFin() {
-        return heureFin;
-    }
-
-    public void setHeureFin(LocalDateTime heureFin) {
-        this.heureFin = heureFin;
-    }
+    @Column(name = "date_examen")
+    private String dateExamen;
 }
