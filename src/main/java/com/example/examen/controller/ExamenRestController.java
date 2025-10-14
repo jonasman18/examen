@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api") // base /api
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
-
 public class ExamenRestController {
 
     private final ExamenService examenService;
@@ -25,9 +24,10 @@ public class ExamenRestController {
     private final NiveauRepository niveauRepository;
 
     @Autowired
-    public ExamenRestController(ExamenService examenService,
-                                MatiereRepository matiereRepository,
-                                NiveauRepository niveauRepository) {
+    public ExamenRestController(
+            ExamenService examenService,
+            MatiereRepository matiereRepository,
+            NiveauRepository niveauRepository) {
         this.examenService = examenService;
         this.matiereRepository = matiereRepository;
         this.niveauRepository = niveauRepository;
@@ -41,11 +41,26 @@ public class ExamenRestController {
     @GetMapping("/examens/{id}")
     public ResponseEntity<Examen> getExamenById(@PathVariable Long id) {
         Optional<Examen> optionalExamen = examenService.getExamenById(id);
-        return optionalExamen.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return optionalExamen.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/examens")
     public ResponseEntity<Examen> createExamen(@RequestBody Examen examen) {
+        // 🔹 Reconnecter les entités existantes
+        if (examen.getMatiere() != null && examen.getMatiere().getIdMatiere() != null) {
+            examen.setMatiere(
+                    matiereRepository.findById(examen.getMatiere().getIdMatiere())
+                            .orElseThrow(() -> new IllegalArgumentException("Matière introuvable"))
+            );
+        }
+        if (examen.getNiveau() != null && examen.getNiveau().getIdNiveau() != null) {
+            examen.setNiveau(
+                    niveauRepository.findById(examen.getNiveau().getIdNiveau())
+                            .orElseThrow(() -> new IllegalArgumentException("Niveau introuvable"))
+            );
+        }
+
         Examen saved = examenService.saveExamen(examen);
         return ResponseEntity.ok(saved);
     }
@@ -53,6 +68,22 @@ public class ExamenRestController {
     @PutMapping("/examens/{id}")
     public ResponseEntity<Examen> updateExamen(@PathVariable Long id, @RequestBody Examen examen) {
         examen.setIdExamen(id);
+
+        // 🔹 Reconnecter les entités existantes avant la sauvegarde
+        if (examen.getMatiere() != null && examen.getMatiere().getIdMatiere() != null) {
+            examen.setMatiere(
+                    matiereRepository.findById(examen.getMatiere().getIdMatiere())
+                            .orElseThrow(() -> new IllegalArgumentException("Matière introuvable"))
+            );
+        }
+
+        if (examen.getNiveau() != null && examen.getNiveau().getIdNiveau() != null) {
+            examen.setNiveau(
+                    niveauRepository.findById(examen.getNiveau().getIdNiveau())
+                            .orElseThrow(() -> new IllegalArgumentException("Niveau introuvable"))
+            );
+        }
+
         Examen updated = examenService.saveExamen(examen);
         return ResponseEntity.ok(updated);
     }
@@ -63,11 +94,6 @@ public class ExamenRestController {
         return ResponseEntity.noContent().build();
     }
 
-    /*@GetMapping("/matieres")
-    public List<Matiere> getMatieres() {
-        return matiereRepository.findAll();
-    } */
-
     @GetMapping("/niveaux")
     public List<Niveau> getNiveaux() {
         return niveauRepository.findAll();
@@ -77,6 +103,4 @@ public class ExamenRestController {
     public List<Repartition> getRepartitionByExamen(@PathVariable Long id) {
         return examenService.getRepartition(id);
     }
-
-
 }

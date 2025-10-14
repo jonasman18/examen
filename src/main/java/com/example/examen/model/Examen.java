@@ -35,7 +35,7 @@ public class Examen {
 
     @Column(name = "date_examen", nullable = false)
     @NotNull(message = "La date est obligatoire")
-    @FutureOrPresent(message = "La date ne peut pas être dans le passé")
+    /*@FutureOrPresent(message = "La date ne peut pas être dans le passé")*/
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateExamen;
 
