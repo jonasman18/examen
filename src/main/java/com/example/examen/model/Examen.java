@@ -1,6 +1,7 @@
 package com.example.examen.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,20 +23,22 @@ public class Examen {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_matiere", referencedColumnName = "id_matiere")
     @NotNull(message = "La matière est obligatoire")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // ✅ Évite les problèmes de sérialisation
     private Matiere matiere;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_niveau", referencedColumnName = "id_niveau")
     @NotNull(message = "Le niveau est obligatoire")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Niveau niveau;
 
     @ManyToOne
     @JoinColumn(name = "id_repartition")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Repartition repartition;
 
     @Column(name = "date_examen", nullable = false)
     @NotNull(message = "La date est obligatoire")
-    /*@FutureOrPresent(message = "La date ne peut pas être dans le passé")*/
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateExamen;
 
@@ -60,20 +63,13 @@ public class Examen {
     @Size(max = 50, message = "Session trop longue")
     private String session;
 
-    @OneToMany(mappedBy = "examen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("examen")
-    private List<ExamenParcours> examenParcoursList;
-
-    public List<ExamenParcours> getExamenParcoursList() {
-        return examenParcoursList;
-    }
-    public void setExamenParcoursList(List<ExamenParcours> examenParcoursList) {
-        this.examenParcoursList = examenParcoursList;
-    }
+    @OneToMany(mappedBy = "examen", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("examen") // ✅ REMPLACE JsonManagedReference - évite la boucle
+    private List<ExamenParcours> examenParcours;
 
     public Examen() {
-        this.matiere = new Matiere(); // Initialisation par défaut
-        this.niveau = new Niveau(); // Initialisation par défaut
+        this.matiere = new Matiere();
+        this.niveau = new Niveau();
     }
 
     public Examen(Matiere matiere, Niveau niveau, LocalDate dateExamen,
@@ -93,7 +89,7 @@ public class Examen {
         this.idExamen = idExamen;
     }
 
-    // Getters et setters (déjà bons, mais ajoutez des logs si besoin)
+    // Getters et Setters
     public Long getIdExamen() {
         return idExamen;
     }
@@ -116,6 +112,14 @@ public class Examen {
 
     public void setNiveau(Niveau niveau) {
         this.niveau = niveau;
+    }
+
+    public Repartition getRepartition() {
+        return repartition;
+    }
+
+    public void setRepartition(Repartition repartition) {
+        this.repartition = repartition;
     }
 
     public LocalDate getDateExamen() {
@@ -164,5 +168,13 @@ public class Examen {
 
     public void setSession(String session) {
         this.session = session;
+    }
+
+    public List<ExamenParcours> getExamenParcours() {
+        return examenParcours;
+    }
+
+    public void setExamenParcours(List<ExamenParcours> examenParcours) {
+        this.examenParcours = examenParcours;
     }
 }

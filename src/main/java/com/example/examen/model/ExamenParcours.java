@@ -1,5 +1,6 @@
 package com.example.examen.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,14 +10,16 @@ public class ExamenParcours {
     @EmbeddedId
     private ExamenParcoursId id;
 
-    @ManyToOne
-    @MapsId("idExamen") // lie le champ de la clé composite
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idExamen")
     @JoinColumn(name = "id_examen", nullable = false)
+    @JsonIgnoreProperties({"examenParcours", "hibernateLazyInitializer", "handler"}) // ✅ REMPLACE JsonBackReference
     private Examen examen;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idParcours")
     @JoinColumn(name = "id_parcours", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Parcours parcours;
 
     public ExamenParcours() {}

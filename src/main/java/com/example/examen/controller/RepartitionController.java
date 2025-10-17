@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/repartitions")
+@CrossOrigin(origins = "*")
 public class RepartitionController {
 
     private final RepartitionService repartitionService;

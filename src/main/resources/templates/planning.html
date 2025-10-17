@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Planning des Examens</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            color: #222;
+        }
+        h1 {
+            text-align: center;
+            color: #155e3e;
+            margin-top: 30px;
+        }
+        table {
+            width: 95%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #198754;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            font-size: 13px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .date {
+            background: #d1f0e2;
+            font-weight: bold;
+        }
+        .matiere {
+            color: #0d4d31;
+            font-weight: 600;
+        }
+        .enseignant {
+            font-style: italic;
+            color: #444;
+        }
+        .heure {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<h1>📅 Planning des Examens</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Matière</th>
+        <th>Parcours</th>
+        <th>Niveau</th>
+        <th>Session</th>
+        <th>Salle</th>
+        <th>Enseignant</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="exam : ${examens}">
+        <!-- 🗓 Date -->
+        <td class="date"
+            th:text="${exam != null && exam.dateExamen != null ? #temporals.format(exam.dateExamen, 'dd/MM/yyyy') : ''}">
+        </td>
+
+        <!-- 🕓 Heure -->
+        <td class="heure"
+            th:text="${exam != null && exam.heureDebut != null ? #temporals.format(exam.heureDebut, 'HH:mm') + ' - ' + #temporals.format(exam.heureFin, 'HH:mm') : ''}">
+        </td>
+
+        <!-- 📘 Matière -->
+        <td class="matiere"
+            th:text="${exam != null && exam.matiere != null ? exam.matiere.nomMatiere : ''}">
+        </td>
+
+        <!-- 🎓 Parcours (concaténé avec /) -->
+        <td th:text="${exam.examenParcours != null ? #strings.listJoin(exam.examenParcours.?[parcours != null].![parcours.codeParcours], ' / ') : ''}">
+        </td>
+
+        <!-- Niveau -->
+        <td th:text="${exam.niveau != null ? exam.niveau.codeNiveau : ''}"></td>
+
+        <!-- Session -->
+        <td th:text="${exam.session != null ? exam.session : ''}"></td>
+
+        <!-- Salle -->
+        <td th:text="${exam.numeroSalle != null ? exam.numeroSalle : ''}"></td>
+
+        <!-- 👨‍🏫 Enseignant -->
+        <td class="enseignant"
+            th:text="${exam.matiere != null && exam.matiere.enseignerList != null && !exam.matiere.enseignerList.isEmpty() ? exam.matiere.enseignerList.get(0).enseignant.nomEnseignant : ''}">
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p style="text-align:center; font-size:12px; color:#555; margin-top:30px;">
+    Généré automatiquement le <span th:text="${#temporals.format(T(java.time.LocalDateTime).now(), 'dd/MM/yyyy à HH:mm')}"></span>
+</p>
+</body>
+</html>
