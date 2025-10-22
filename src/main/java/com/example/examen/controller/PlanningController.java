@@ -17,10 +17,15 @@ public class PlanningController {
         this.planningService = planningService;
     }
 
+    // ✅ Téléchargement du PDF avec filtres facultatifs
     @GetMapping("/pdf")
-    public ResponseEntity<byte[]> downloadPlanning() {
+    public ResponseEntity<byte[]> downloadPlanning(
+            @RequestParam(required = false) String niveau,
+            @RequestParam(required = false) String parcours,
+            @RequestParam(required = false) String enseignant
+    ) {
         try {
-            byte[] pdfBytes = planningService.generatePlanningPdf();
+            byte[] pdfBytes = planningService.generatePlanningPdf(niveau, parcours, enseignant);
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=planning_examens.pdf")
